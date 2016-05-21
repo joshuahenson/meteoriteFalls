@@ -7,9 +7,9 @@ $ocean: #1C6BA0;
 $land: #78B6A4;
 $countryBorder: #A0EBCB;
 
-html {
-  background-color: $ocean;
-}
+// html {
+//   background-color: $ocean;
+// }
 
 .container {
   text-align: center;
@@ -32,6 +32,11 @@ html {
 }
 
 // *************** svg styles ***************
+
+.ocean {
+  fill: $ocean;
+}
+
 .land {
   fill: $land;
 }

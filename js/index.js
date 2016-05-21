@@ -13,6 +13,11 @@ const svg = d3.select('#root').append('svg')
     
 const g = svg.append('g');
 
+g.append('rect')
+  .attr('class', 'ocean')
+  .attr('width', width)
+  .attr('height', height);
+
 const projection = d3.geo.mercator()
   .scale(130)
   .translate([width / 2, height / 2]);
@@ -40,11 +45,11 @@ d3.json('../json/world-50m.json', (error, world) => {
   d3.json('../json/meteorite-strike-data.json', (e, data) => {
     if (e) { console.error(e); }
 
-    // set color scale for meteor dots avoiding blue/green due to map color
-    const colors = d3.scale.ordinal()
+    // set color scale for meteor dots according to size
+    const colors = d3.scale.quantize()
       .domain([0, data.features.length])
-      .range(['#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00',
-        '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']);
+      .range(['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84',
+        '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000']);
 
     // append meteor dots to map
     g.selectAll('circle')
