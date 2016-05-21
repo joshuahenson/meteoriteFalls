@@ -1,1 +1,26 @@
 // compileExpanded: $1.css
+
+// #E4F5E9
+// #408DA7
+
+$ocean: #1C6BA0;
+$land: #78B6A4;
+$countryBorder: #A0EBCB;
+
+html {
+  background-color: $ocean;
+}
+
+.container {
+  text-align: center;
+}
+
+// *************** svg styles ***************
+.land {
+  fill: $land;
+}
+
+.country-border {
+  fill: none;
+  stroke: $countryBorder;
+}
