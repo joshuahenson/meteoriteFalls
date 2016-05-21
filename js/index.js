@@ -6,6 +6,8 @@ const height = 800;
 const svg = d3.select('#root').append('svg')
     .attr('width', width)
     .attr('height', height);
+    
+const g = svg.append('g');
 
 const projection = d3.geo.mercator()
   .scale(130)
@@ -20,13 +22,13 @@ d3.json('../json/world-50m.json', (error, world) => {
   const countries = topojson.feature(world, world.objects.countries);
 
   // append basic shape of landmass
-  svg.append('path')
+  g.append('path')
     .datum(countries)
     .attr('class', 'land')
     .attr('d', path);
 
   // append borders
-  svg.append('path')
+  g.append('path')
     .datum(topojson.mesh(world, world.objects.countries, (a, b) => a !== b))
     .attr('d', path)
     .attr('class', 'country-border');
@@ -41,7 +43,7 @@ d3.json('../json/world-50m.json', (error, world) => {
         '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']);
 
     // append meteor dots to map
-    svg.selectAll('circle')
+    g.selectAll('circle')
       .data(data.features)
       .enter()
       .append('circle')
@@ -53,6 +55,17 @@ d3.json('../json/world-50m.json', (error, world) => {
   });
 });
 
+const zoom = d3.behavior.zoom()
+  .on('zoom', () => {
+    g.attr('transform',
+      `translate(${d3.event.translate.join(',')})scale(${d3.event.scale})`);
+    g.selectAll('circle, path')
+        .attr('d', path.projection(projection));
+  });
+
+svg.call(zoom);
+
 // helpful sites
 // https://bost.ocks.org/mike/map/ -topojson
 // https://www.pluralsight.com/courses/d3js-data-visualization-fundamentals
+// http://bl.ocks.org/d3noob/5193723 -zoom
