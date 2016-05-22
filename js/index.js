@@ -21,7 +21,7 @@ const projection = d3.geo.mercator()
 const path = d3.geo.path()
   .projection(projection);
 
-d3.json('../json/world-50m.json', (error, world) => {
+d3.json('../json/world-110m.json', (error, world) => {
   if (error) { console.error(error); }
 
   const countries = topojson.feature(world, world.objects.countries);
