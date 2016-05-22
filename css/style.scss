@@ -1,15 +1,14 @@
 // compileExpanded: $1.css
 
-// #E4F5E9
-// #408DA7
-
+$primary: #E4F5E9;
+$secondary: #408DA7;
 $ocean: #1C6BA0;
 $land: #78B6A4;
 $countryBorder: #A0EBCB;
 
-// html {
-//   background-color: $ocean;
-// }
+html {
+  background-color: $ocean;
+}
 
 .container {
   text-align: center;
@@ -29,13 +28,13 @@ $countryBorder: #A0EBCB;
   & > h3 {
     margin: 5px 0;
   }
+  & > span {
+    display: block;
+    margin: 1px 0;
+  }
 }
 
 // *************** svg styles ***************
-
-.ocean {
-  fill: $ocean;
-}
 
 .land {
   fill: $land;
@@ -47,4 +46,13 @@ $countryBorder: #A0EBCB;
   stroke-width: 0.25;
   stroke-linejoin: round;
   stroke-linecap: round;
+}
+
+.meteor {
+  stroke: $secondary;
+  stroke-width: 0.25;
+  opacity: 0.8;
+  &:hover {
+    stroke: red;
+  }
 }

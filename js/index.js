@@ -1,7 +1,7 @@
 /* global d3 topojson */
 
-const width = 800;
-const height = 800;
+const width = 1000;
+const height = 600;
 
 const tooltip = d3.select('#root').append('div')
     .attr('class', 'tooltip')
@@ -10,13 +10,8 @@ const tooltip = d3.select('#root').append('div')
 const svg = d3.select('#root').append('svg')
     .attr('width', width)
     .attr('height', height);
-    
-const g = svg.append('g');
 
-g.append('rect')
-  .attr('class', 'ocean')
-  .attr('width', width)
-  .attr('height', height);
+const g = svg.append('g');
 
 const projection = d3.geo.mercator()
   .scale(130)
@@ -52,23 +47,26 @@ d3.json('../json/world-50m.json', (error, world) => {
         '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000']);
 
     // append meteor dots to map
+    const formatNum = d3.format('0,000');
     g.selectAll('circle')
       // sort data by descending size to lay smaller meteors on top of bigger
-      .data(data.features.sort((a,b) => b.properties.mass-a.properties.mass))
+      .data(data.features.sort((a, b) => b.properties.mass - a.properties.mass))
       .enter()
       .append('circle')
+      .attr('class', 'meteor')
       .attr('cx', d => projection([d.properties.reclong, d.properties.reclat])[0])
       .attr('cy', d => projection([d.properties.reclong, d.properties.reclat])[1])
-      .attr('r', d => Math.sqrt(d.properties.mass * 0.0001))
+      .attr('r', d => Math.pow(d.properties.mass * 0.001, 1 / 3))
       .attr('fill', (d, i) => colors(i))
-      .attr('opacity', 0.6)
       .on('mouseover', d => {
         tooltip.transition()
           .style('opacity', 1);
-        tooltip.html(`<h3>${d.properties.name}</h3>${d.properties.year.substr(0, 4)}`)
+        tooltip.html(`<h3>${d.properties.name}</h3>
+          <span>${d.properties.year.substr(0, 4)}</span>
+          <span>${formatNum(d.properties.mass / 1000)} kg</span>`)
           .style('left', `${d3.event.pageX + 20}px`)
           .style('top', `${d3.event.pageY - 30}px`);
-    })
+      })
       .on('mouseout', () => {
         tooltip.transition()
           .style('opacity', 0);
