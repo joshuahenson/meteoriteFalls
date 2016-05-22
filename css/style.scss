@@ -44,6 +44,11 @@ svg {
 
 // *************** svg styles ***************
 
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
 .land {
   fill: $land;
 }

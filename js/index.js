@@ -1,7 +1,7 @@
 /* global d3 topojson */
 
-const width = 1000;
-const height = 600;
+const width = 960;
+const height = 960;
 
 const tooltip = d3.select('#root').append('div')
     .attr('class', 'tooltip')
@@ -10,25 +10,39 @@ const tooltip = d3.select('#root').append('div')
 const svg = d3.select('#root').append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('width', width)
-    .attr('height', height);
+    .attr('height', height)
+    .append('g');
 
 const g = svg.append('g');
 
-const projection = d3.geo.mercator()
-  .scale(200)
-  .translate([width / 2, height / 2]);
+svg.append('rect')
+    .attr('class', 'overlay')
+    .attr('width', width)
+    .attr('height', height);
+
+const projection = d3.geo.mercator();
+
+const zoomed = () => {
+  g.attr('transform', `translate(${d3.event.translate})scale(${d3.event.scale})`);
+};
+
+const zoom = d3.behavior.zoom()
+  .scaleExtent([1, 8])
+  .on('zoom', zoomed);
 
 const path = d3.geo.path()
   .projection(projection);
 
+svg
+  .call(zoom)
+  .call(zoom.event);
+
 d3.json('../json/world-110m.json', (error, world) => {
   if (error) { console.error(error); }
 
-  const countries = topojson.feature(world, world.objects.countries);
-
   // append basic shape of landmass
   g.append('path')
-    .datum(countries)
+    .datum(topojson.feature(world, world.objects.countries))
     .attr('class', 'land')
     .attr('d', path);
 
@@ -75,17 +89,8 @@ d3.json('../json/world-110m.json', (error, world) => {
   });
 });
 
-const zoom = d3.behavior.zoom()
-  .on('zoom', () => {
-    g.attr('transform',
-      `translate(${d3.event.translate.join(',')})scale(${d3.event.scale})`);
-    g.selectAll('circle, path')
-        .attr('d', path.projection(projection));
-  });
-
-svg.call(zoom);
-
 // helpful sites
 // https://bost.ocks.org/mike/map/ -topojson
 // https://www.pluralsight.com/courses/d3js-data-visualization-fundamentals
-// http://bl.ocks.org/d3noob/5193723 -zoom
+// https://gist.github.com/harlantwood/6900108 - fullscreen
+// https://bl.ocks.org/mbostock/8fadc5ac9c2a9e7c5ba2 -zoom
