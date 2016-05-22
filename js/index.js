@@ -13,12 +13,12 @@ const svg = d3.select('#root').append('svg')
     .attr('height', height)
     .append('g');
 
-const g = svg.append('g');
-
 svg.append('rect')
     .attr('class', 'overlay')
     .attr('width', width)
     .attr('height', height);
+
+const g = svg.append('g');
 
 const projection = d3.geo.mercator();
 
@@ -89,8 +89,10 @@ d3.json('../json/world-110m.json', (error, world) => {
   });
 });
 
-// helpful sites
-// https://bost.ocks.org/mike/map/ -topojson
-// https://www.pluralsight.com/courses/d3js-data-visualization-fundamentals
-// https://gist.github.com/harlantwood/6900108 - fullscreen
-// https://bl.ocks.org/mbostock/8fadc5ac9c2a9e7c5ba2 -zoom
+/*
+helpful sites
+https://bost.ocks.org/mike/map/ -topojson
+https://www.pluralsight.com/courses/d3js-data-visualization-fundamentals
+https://gist.github.com/harlantwood/6900108 - fullscreen
+https://bl.ocks.org/mbostock/8fadc5ac9c2a9e7c5ba2 -zoom
+*/
