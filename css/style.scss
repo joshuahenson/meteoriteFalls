@@ -8,6 +8,14 @@ $countryBorder: #A0EBCB;
 
 html {
   background-color: $ocean;
+  overflow: hidden;
+}
+
+body,
+svg {
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .container {

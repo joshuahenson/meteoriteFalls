@@ -8,13 +8,14 @@ const tooltip = d3.select('#root').append('div')
     .style('opacity', 0);
 
 const svg = d3.select('#root').append('svg')
+    .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('width', width)
     .attr('height', height);
 
 const g = svg.append('g');
 
 const projection = d3.geo.mercator()
-  .scale(130)
+  .scale(200)
   .translate([width / 2, height / 2]);
 
 const path = d3.geo.path()
